@@ -25,3 +25,9 @@ class DHT:
 
     def leave_network(self) -> None:
         self.node.stop()
+
+    async def get(self, key):
+        return await self.node.get(key)
+
+    async def put(self, key, value):
+        return await self.node.set(key, value)
