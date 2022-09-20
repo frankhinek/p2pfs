@@ -48,3 +48,23 @@ async def test_set_get(bootstrap_peer_config, peer2_config):
 
     peer2.leave_network()
     peer_bootstrap.leave_network()
+
+
+@pytest.mark.asyncio
+async def test_get_unknown_key(bootstrap_peer_config, peer2_config):
+    peer_bootstrap = DHT(bootstrap_peer_config['HOST_IP_ADDRESS'],
+                         bootstrap_peer_config['DHT_LISTEN_PORT'],
+                         bootstrap_peer_config['DHT_BOOTSTRAP_NODES'])
+    peer2 = DHT(peer2_config['HOST_IP_ADDRESS'],
+                peer2_config['DHT_LISTEN_PORT'],
+                peer2_config['DHT_BOOTSTRAP_NODES'])
+
+    await peer_bootstrap.join_network()
+    await peer2.join_network()
+
+    k = 'not_stored'
+    get_result = await peer_bootstrap.get(k)
+    assert get_result == None  # Key was not found in the DHT.
+
+    peer2.leave_network()
+    peer_bootstrap.leave_network()

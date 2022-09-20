@@ -25,11 +25,28 @@ log.setLevel(logging.DEBUG)
 
 class Application:
     def __init__(self, config: dict) -> None:
+        """Initialize the Application layer.
+
+        If this peer is starting a new network, set `DHT_BOOTSTRAP_NODES` to an empty list.
+        If this peer is joining and existing network, specify one or more bootstrap nodes.
+
+        Application Configuration:
+        - `HOST_IP_ADDRESS` - Interface IP address this peer should bind to.
+        - `DHT_LISTEN_PORT` - Port the DHT overlay should listen on.
+        - `DHT_BOOTSTRAP_NODES` - (Optional) List of (ip, port) tuples to join.
+
+        Args:
+            config (dict): Application configuration specified as keys/values.
+        """
         ## Initialize Networking layer services.
         self._dht = DHT(config['HOST_IP_ADDRESS'], config['DHT_LISTEN_PORT'], config['DHT_BOOTSTRAP_NODES'])
     
     async def start(self) -> None:
+        """Start the DHT overlay.
+        """
         await self._dht.join_network()
 
     async def stop(self) -> None:
+        """Stop the DHT overlay.
+        """
         self._dht.leave_network()
