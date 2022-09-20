@@ -21,10 +21,13 @@ and consists of four separate parts:
 
 ## Project layout
 
-    mkdocs.yml    # The configuration file.
     docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+        index.md      # The documentation homepage.
+        reference.md  # Technical reference information.
+    tests/
+    mkdocs.yml        # MkDocs configuration file.
+    pyproject.toml    # Poetry configuration file.
+    README.md         # Project README.
 
 ## Acknowledgements
 
