@@ -1,1 +1,10 @@
-site_name: My Docs
+site_name: Peer-to-Peer File Sharing Prototype
+theme:
+  name: material
+
+plugins:
+  - mkdocstrings
+
+nav:
+  - P2PFS Docs: index.md
+  - reference.md
