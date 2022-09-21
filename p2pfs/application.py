@@ -53,6 +53,7 @@ class Application:
         # Initialize Application layer services
         self.content_dir = config['CONTENT_DIR']
         self._indexing = IndexingService(self._dht)
+        self._query = QueryService(self._dht)
     
     async def start(self) -> None:
         """Start the DHT overlay.
@@ -87,6 +88,22 @@ class Application:
         else:
             log.error('Failed to insert file and metadata tags into DHT')
             return False
+
+    async def search(self, field: str, term: str) -> dict:
+        """Search the DHT for keys matching the search field and term.
+        Used to look up files by album, artist, track, or filename.
+
+        Examples:
+            >>> app.search('title', 'Radar Love')
+
+        Args:
+            field (str): Search field to query with.
+            term (str): Search term to query with
+
+        Returns:
+            dict | None: If search result is found, return metadata information. Otherwise, return empty dictionary.
+        """
+        return await self._query.query(field, term)
 
 
 class IndexingService:
@@ -185,3 +202,51 @@ class IndexingService:
         else:
             log.info(f'publish skipped for already published file: {file_path}')
             return [False]
+
+
+class QueryService:
+    """Queries the DHT for files by file name or metadata tags.
+    """
+    def __init__(self, dht: DHT) -> None:
+        """Initialize the Query Service to be managed by the Application layer.
+
+        Args:
+            dht (DHT): DHT class object instantiated by the managing Application.
+        """
+        self.dht = dht
+    
+    async def query(self, field: str, term: str) -> dict:
+        """Query the DHT for the specified field and term.
+        If a result is found, query the DHT again to retrieve the
+        metainfo.
+
+        Examples:
+            >>> qsvc.query('title', 'Radar Love')
+            {
+                'metadata': {
+                    'filename': 'Golden Earring - Radar Love.mp3',
+                    'album': 'Moontan',
+                    'artist': 'Golden Earring',
+                    'title': 'Radar Love'
+                },
+                'url-list': [
+                    'http%3A//0.0.0.0%3A8080/download/Golden%20Earring%20-%20Radar%20Love.mp3'
+                ]
+            }
+
+        Args:
+            field (str): Search field to query with.
+            term (str): Search term to query with
+
+        Returns:
+            dict | None: If search result is found, return metadata information. Otherwise, return empty dictionary.
+        """
+        # Get the content address, if any results.
+        content_id_found = await self.dht.get(f'{field}|{term}')
+        if content_id_found:
+            # Retrieve metainfo for content address.
+            file_metainfo_cbor = await self.dht.get(content_id_found)
+            if file_metainfo_cbor:
+                file_metainfo = dag_cbor.decode(file_metainfo_cbor)
+                return file_metainfo
+        return {}
