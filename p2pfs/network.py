@@ -7,7 +7,7 @@ import logging
 from pathlib import Path
 import shutil
 import urllib
-from aiohttp import web
+from aiohttp import web, ClientSession
 
 log = logging.getLogger(__name__)
 
@@ -55,6 +55,40 @@ class ContentService:
             file_name (str): File name to be deleted.
         """
         Path(self.host_root_dir).joinpath(Path(file_name).name).unlink()
+
+    async def get(self, url_list: list, file_list: list, output_dir: str) -> dict:
+        """Attempt to download the list of files from one or more hosting
+        providers using HTTP GET requests.
+
+        Args:
+            url_list (list): List of providers hosting the file(s) for download.
+            file_list (list): List of file names to download.
+            output_dir (str): Relative path to store the download files in.
+
+        Returns:
+            dict: _description_
+        """
+        download_results = {}
+        chunk_size = 16*1024
+        # Iteratively download each file, trying the URLs in order until one succeeds.
+        for file in file_list:
+            download_results[file['name']] = False
+            output_path = Path(output_dir).joinpath(Path(file['name']))
+            for url_path in url_list:
+                url = urllib.parse.unquote(url_path + file['name'])
+                try:
+                    async with ClientSession() as session:
+                        async with session.get(url) as resp:
+                            with open(output_path, 'wb') as fd:
+                                async for chunk in resp.content.iter_chunked(chunk_size):
+                                    fd.write(chunk)
+                    # If the file is downloaded successfully, skip the rest of the URls and proceed to the next file.
+                    download_results[file['name']] = True
+                    break
+                except Exception as e:
+                    log.warning(f'Download failed from: {url}')
+                    
+        return download_results
 
     def get_encoded_url_path(self) -> str:
         """Returns the base URL path for files hosted by this peer.

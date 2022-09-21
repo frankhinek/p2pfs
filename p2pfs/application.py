@@ -107,6 +107,18 @@ class Application:
         """
         return await self._query.query(field, term)
 
+    async def download(self, url_list: list, file_list: list) -> dict:
+        """Attempt to download the list of files from one or more hosting
+        providers.
+
+        Args:
+            url_list (list): List of providers hosting the file(s) for download.
+            file_list (list): List of file names to download.
+
+        Returns:
+            dict: Keys are file names and values are success (True) are failure (False).
+        """
+        return await self._content.get(url_list, file_list, self.content_dir)
 
 class IndexingService:
     """Extract metadata from files and inserts mappings from metadata tags to
