@@ -56,14 +56,16 @@ class Application:
         self._query = QueryService(self._dht)
     
     async def start(self) -> None:
-        """Start the DHT overlay.
+        """Start the DHT overlay and ContentService server.
         """
         await self._dht.join_network()
+        await self._content.start_serving()
 
     async def stop(self) -> None:
-        """Stop the DHT overlay.
+        """Stop the DHT overlay and ContentService server.
         """
         self._dht.leave_network()
+        await self._content.stop_serving()
 
     async def publish(self, file_name: str) -> bool:
         """Inserts the file's content ID and metadata tags into the DHT.
