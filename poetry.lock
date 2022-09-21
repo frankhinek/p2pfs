@@ -13,6 +13,21 @@ tests = ["cloudpickle", "coverage[toml] (>=5.0.2)", "hypothesis", "mypy (>=0.900
 tests_no_zope = ["cloudpickle", "coverage[toml] (>=5.0.2)", "hypothesis", "mypy (>=0.900,!=0.940)", "pympler", "pytest (>=4.3.0)", "pytest-mypy-plugins"]
 
 [[package]]
+name = "bases"
+version = "0.2.1"
+description = "Python library for general Base-N encodings."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+typing-extensions = "*"
+typing-validation = "*"
+
+[package.extras]
+dev = ["base58", "mypy", "pylint", "pytest", "pytest-cov"]
+
+[[package]]
 name = "black"
 version = "22.8.0"
 description = "The uncompromising code formatter."
@@ -70,6 +85,18 @@ description = "Cross-platform colored terminal text."
 category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+
+[[package]]
+name = "dag-cbor"
+version = "0.2.2"
+description = "Python implementation of the DAG-CBOR codec."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+multiformats = "*"
+typing-validation = "*"
 
 [[package]]
 name = "ghp-import"
@@ -275,6 +302,23 @@ griffe = ">=0.11.1"
 mkdocstrings = ">=0.19"
 
 [[package]]
+name = "multiformats"
+version = "0.1.4.post2"
+description = "Python implementation of multiformats protocols."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+bases = "*"
+typing-extensions = "*"
+typing-validation = "*"
+
+[package.extras]
+dev = ["blake3", "mmh3", "mypy", "pycryptodomex", "pylint", "pysha3", "pyskein", "pytest", "pytest-cov"]
+full = ["blake3", "mmh3", "pycryptodomex", "pysha3", "pyskein"]
+
+[[package]]
 name = "mypy-extensions"
 version = "0.4.3"
 description = "Experimental type system extensions for programs checked with the mypy typechecker."
@@ -468,12 +512,42 @@ optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
+name = "tinytag"
+version = "1.8.1"
+description = "Read music meta data and length of MP3, OGG, OPUS, MP4, M4A, FLAC, WMA and Wave files"
+category = "main"
+optional = false
+python-versions = ">=2.7"
+
+[package.extras]
+tests = ["flake8", "pytest", "pytest-cov"]
+
+[[package]]
 name = "tomli"
 version = "2.0.1"
 description = "A lil' TOML parser"
 category = "main"
 optional = false
 python-versions = ">=3.7"
+
+[[package]]
+name = "typing-extensions"
+version = "4.3.0"
+description = "Backported and Experimental Type Hints for Python 3.7+"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[[package]]
+name = "typing-validation"
+version = "0.0.1.post7"
+description = "A simple library for runtime type-checking."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.extras]
+dev = ["mypy", "pylint", "pytest", "pytest-cov"]
 
 [[package]]
 name = "u-msgpack-python"
@@ -522,12 +596,16 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "b50a1d4471457df5e0bcc9d382872ec2f2c1b8e80add66c5ea91ef876faecb27"
+content-hash = "fda29a9ea3424909f0017114f6e711812bf3453e1f455b60e6f51aa8c4b9d0e6"
 
 [metadata.files]
 attrs = [
     {file = "attrs-22.1.0-py2.py3-none-any.whl", hash = "sha256:86efa402f67bf2df34f51a335487cf46b1ec130d02b8d39fd248abfd30da551c"},
     {file = "attrs-22.1.0.tar.gz", hash = "sha256:29adc2665447e5191d0e7c568fde78b21f9672d344281d0c6e1ab085429b22b6"},
+]
+bases = [
+    {file = "bases-0.2.1-py3-none-any.whl", hash = "sha256:d030b5e349773ad2a067bfaaf3a9794b70d23a1f923033c15c2e0ce869854f6d"},
+    {file = "bases-0.2.1.tar.gz", hash = "sha256:b0999e14725b59bff38974b00e918629e0e29f3d80a40e022c6f0f8d5cdff9d4"},
 ]
 black = [
     {file = "black-22.8.0-cp310-cp310-macosx_10_9_universal2.whl", hash = "sha256:ce957f1d6b78a8a231b18e0dd2d94a33d2ba738cd88a7fe64f53f659eea49fdd"},
@@ -569,6 +647,10 @@ click = [
 colorama = [
     {file = "colorama-0.4.5-py2.py3-none-any.whl", hash = "sha256:854bf444933e37f5824ae7bfc1e98d5bce2ebe4160d46b5edf346a89358e99da"},
     {file = "colorama-0.4.5.tar.gz", hash = "sha256:e6c6b4334fc50988a639d9b98aa429a0b57da6e17b9a44f0451f930b6967b7a4"},
+]
+dag-cbor = [
+    {file = "dag-cbor-0.2.2.tar.gz", hash = "sha256:ace420ad0ec0ffaf621ddee545392b63ee53ab23a808a87cbaed1e1b098dccd1"},
+    {file = "dag_cbor-0.2.2-py3-none-any.whl", hash = "sha256:a501782cc46e88d5a272d2bb4718e75fec3678aa167bd4648370ff525c3021fd"},
 ]
 ghp-import = [
     {file = "ghp-import-2.1.0.tar.gz", hash = "sha256:9c535c4c61193c2df8871222567d7fd7e5014d835f97dc7b7439069e2413d343"},
@@ -672,6 +754,10 @@ mkdocstrings-python = [
     {file = "mkdocstrings-python-0.7.1.tar.gz", hash = "sha256:c334b382dca202dfa37071c182418a6df5818356a95d54362a2b24822ca3af71"},
     {file = "mkdocstrings_python-0.7.1-py3-none-any.whl", hash = "sha256:a22060bfa374697678e9af4e62b020d990dad2711c98f7a9fac5c0345bef93c7"},
 ]
+multiformats = [
+    {file = "multiformats-0.1.4.post2-py3-none-any.whl", hash = "sha256:b91aa9d2b67d02571f907894931c1037ff464921eb9b77cb8f429372640ee050"},
+    {file = "multiformats-0.1.4.post2.tar.gz", hash = "sha256:be90887379a410351022de74ac51266c98cfefab8717f31bc8b94a19aa6027fc"},
+]
 mypy-extensions = [
     {file = "mypy_extensions-0.4.3-py2.py3-none-any.whl", hash = "sha256:090fedd75945a69ae91ce1303b5824f428daf5a028d2f6ab8a299250a846f15d"},
     {file = "mypy_extensions-0.4.3.tar.gz", hash = "sha256:2d82818f5bb3e369420cb3c4060a7970edba416647068eb4c5343488a6c604a8"},
@@ -771,9 +857,20 @@ six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
     {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
 ]
+tinytag = [
+    {file = "tinytag-1.8.1.tar.gz", hash = "sha256:363ab3107831a5598b68aaa061aba915fb1c7b4254d770232e65d5db8487636d"},
+]
 tomli = [
     {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
     {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
+]
+typing-extensions = [
+    {file = "typing_extensions-4.3.0-py3-none-any.whl", hash = "sha256:25642c956049920a5aa49edcdd6ab1e06d7e5d467fc00e0506c44ac86fbfca02"},
+    {file = "typing_extensions-4.3.0.tar.gz", hash = "sha256:e6d2677a32f47fc7eb2795db1dd15c1f34eff616bcaf2cfb5e997f854fa1c4a6"},
+]
+typing-validation = [
+    {file = "typing-validation-0.0.1.post7.tar.gz", hash = "sha256:0781b81aa298b0759da122bb9123eb3746b51ae918ee88d12f7f9d99ed48632a"},
+    {file = "typing_validation-0.0.1.post7-py3-none-any.whl", hash = "sha256:d1a480cd5e9a4c1b59da43939f80ac514da4e8d6e5c24c8db851aa13dd96cc97"},
 ]
 u-msgpack-python = [
     {file = "u-msgpack-python-2.7.1.tar.gz", hash = "sha256:b7e7d433cab77171a4c752875d91836f3040306bab5063fb6dbe11f64ea69551"},

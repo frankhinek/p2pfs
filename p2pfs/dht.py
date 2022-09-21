@@ -6,6 +6,8 @@ This prototype uses the popular DHT protocol, Kademlia, which is used by BitTorr
 The module contains the following classes:
 - `DHT` - Wrapper for the `kademlia` package implementation of a DHT peer-to-peer overlay.
 """
+import asyncio
+from kademlia.utils import digest
 import logging
 from kademlia.network import Server
 
@@ -41,6 +43,17 @@ class DHT:
         """
         self.node.stop()
 
+    def hash_digest(self, value: str) -> bytes:
+        """Returns the SHA1 hash of the input value.
+
+        Args:
+            value (str): Value to be passed through the hash function.
+
+        Returns:
+            bytes: Hash digest of the input value.
+        """
+        return digest(value)
+
     async def get(self, key: str) -> str | None:
         """Lookup a key in the DHT overlay, and if found, retrieve the stored value.
 
@@ -63,3 +76,6 @@ class DHT:
             bool: Result of the insert operation.
         """
         return await self.node.set(key, value)
+
+    async def put_collection(self, task_list):
+        return await asyncio.gather(*task_list, return_exceptions=True)
