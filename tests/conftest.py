@@ -39,8 +39,22 @@ def peer3_config():
 
 @pytest.fixture
 def content_file_1():
-    return 'Pearl Jam - Go.mp3'
+    return 'Tchaikovsky - Nutcracker by Jon Sayles.mp3'
 
 @pytest.fixture
 def content_file_2():
-    return 'Golden Earring - Radar Love.mp3'
+    return 'Rafael Krux - Ukulele Song.mp3'
+
+@pytest.fixture
+def example_metainfo():
+    return {
+        'metadata': {
+            'filename': 'Golden Earring - Radar Love.mp3',
+            'album': 'Moontan',
+            'artist': 'Golden Earring',
+            'title': 'Radar Love'
+        },
+        'url-list': [
+            'http%3A//0.0.0.0%3A8080/download/Golden%20Earring%20-%20Radar%20Love.mp3'
+        ]
+    }

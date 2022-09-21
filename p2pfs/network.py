@@ -25,7 +25,12 @@ class ContentService:
         self.host_root_dir = host_root_dir
         self.host_url_prefix = host_url_prefix
 
-    def get_encoded_url_path(self):
+    def get_encoded_url_path(self) -> str:
+        """Returns the base URL path for files hosted by this peer.
+
+        Returns:
+            str: URL encoded base path.
+        """
         url = f'http://{self.host_ip}:{self.host_port}/{self.host_url_prefix}/'
         return urllib.parse.quote(url)
 
