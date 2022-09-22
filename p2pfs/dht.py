@@ -17,17 +17,20 @@ from kademlia.crawling import ValueSpiderCrawl
 
 log = logging.getLogger(__name__)
 
+
 class ServerWithGetDigest(Server):
     """Extend the `kademlia.network` `Server` class with a `get_digest()` method
     that permits getting the value by hash digest key instead of just str that
     is supported by the existing `Server.get()` method.
     """
-    async def get_digest(self, dkey):
-        """
-        Get a key if the network has it.
+    async def get_digest(self, dkey: bytes) -> str | None:
+        """Get value for key if the network has it.
+
+        Args:
+            dkey (bytes): Hash digest key to attempt to retrieve the value for.
 
         Returns:
-            :class:`None` if not found, the value otherwise.
+            str | None: Return the value from the DHT, or if undefined key, return None.
         """
         # if this node has it, return it
         if self.storage.get(dkey) is not None:
@@ -54,7 +57,7 @@ class DHT:
         self.node = ServerWithGetDigest()
         self.ip = listen_ip
         self.port = listen_port
-        self.bootstrap_nodes = bootstrap_nodes
+        self.bootstrap_nodes = [(ip, port) for ip, port in bootstrap_nodes]
 
     async def join_network(self) -> None:
         """Starts the DHT overlay listening on the specified port and interface address.
