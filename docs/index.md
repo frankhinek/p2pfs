@@ -22,12 +22,20 @@ and consists of four separate parts:
 ## Project layout
 
     docs/
-        index.md      # The documentation homepage.
-        reference.md  # Technical reference information.
-    tests/
-    mkdocs.yml        # MkDocs configuration file.
-    pyproject.toml    # Poetry configuration file.
-    README.md         # Project README.
+        index.md          # The documentation homepage.
+        reference.md      # Technical reference information.
+    examples/             # Example UI client implemented as CLI
+        peer1/            # Simulate first peer
+        peer2/            # Simulate second peer
+        peer3/            # Simulate third peer
+    p2pfs/
+        application.py    # Application, IndexingService, QueryService
+        dht.py            # DHT, kademlia.network.ServerWithGetDigest
+        network.py        # ContentService
+    tests/                # Tests
+    mkdocs.yml            # MkDocs configuration file.
+    pyproject.toml        # Poetry configuration file.
+    README.md             # Project README.
 
 ## Acknowledgements
 

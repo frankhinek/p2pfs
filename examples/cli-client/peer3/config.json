@@ -1,0 +1,9 @@
+{
+  "CONTENT_DIR": "content",
+  "DHT_BOOTSTRAP_NODES": [["0.0.0.0", 6881]],
+  "DHT_LISTEN_PORT": 6883,
+  "HOST_IP_ADDRESS": "0.0.0.0",
+  "HOST_PORT": 8082,
+  "HOST_ROOT_DIR": "http_root",
+  "HOST_URL_PREFIX": "download"
+}
